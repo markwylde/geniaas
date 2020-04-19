@@ -1,8 +1,8 @@
-const righto = require('righto')
-const callarestJson = require('callarest/json')
+const righto = require('righto');
+const callarestJson = require('callarest/json');
 
-const upsertSshKey = require('./upsertSshKey')
-const waitForMachineReady = require('./waitForMachineReady')
+const upsertSshKey = require('./upsertSshKey');
+const waitForMachineReady = require('./waitForMachineReady');
 
 function createMachine (config, options, sshKey, callback) {
   const machine = righto(callarestJson, {
@@ -16,37 +16,37 @@ function createMachine (config, options, sshKey, callback) {
       ssh_keys: [sshKey.id]
     },
     headers: {
-      'Authorization': `Bearer ${config.token}`
+      Authorization: `Bearer ${config.token}`
     }
   })
-  .get(rest => {
-    if (rest.response.statusCode === 202) {
-      return rest.body.droplet
-    }
+    .get(rest => {
+      if (rest.response.statusCode === 202) {
+        return rest.body.droplet;
+      }
 
-    const error = new Error('could not create virtual machine')
-    error.response = rest.response
-    error.body = rest.body
-    return righto.fail(error)
-  })
+      const error = new Error('could not create virtual machine');
+      error.response = rest.response;
+      error.body = rest.body;
+      return righto.fail(error);
+    });
 
-  machine(callback)
+  machine(callback);
 }
 
 function createVirtualMachine (config, options, callback) {
   if (!callback) {
-    callback = options
-    options = null
+    callback = options;
+    options = null;
   }
 
-  options = options || {}
+  options = options || {};
 
-  const sshKey = righto(upsertSshKey, config, options.sshKey)
-  const droplet = righto(createMachine, config, options, sshKey)
+  const sshKey = righto(upsertSshKey, config, options.sshKey);
+  const droplet = righto(createMachine, config, options, sshKey);
 
-  const machineReady = righto(waitForMachineReady, config, droplet)
+  const machineReady = righto(waitForMachineReady, config, droplet);
 
-  machineReady(callback)
+  machineReady(callback);
 }
 
-module.exports = createVirtualMachine
+module.exports = createVirtualMachine;

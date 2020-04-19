@@ -14,4 +14,4 @@ function createProviderConfig (options, callback) {
   });
 }
 
-module.exports = createProviderConfig
+module.exports = createProviderConfig;

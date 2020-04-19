@@ -1,9 +1,9 @@
-const righto = require('righto')
-const callarestJson = require('callarest/json')
+const righto = require('righto');
+const callarestJson = require('callarest/json');
 
 function createSshKeyIfMissing (config, existingKey, publicKey, callback) {
   if (existingKey) {
-    return callback(null, existingKey)
+    return callback(null, existingKey);
   }
 
   const sshKeys = righto(callarestJson, {
@@ -14,33 +14,33 @@ function createSshKeyIfMissing (config, existingKey, publicKey, callback) {
       public_key: publicKey
     },
     headers: {
-      'Authorization': `Bearer ${config.token}`
+      Authorization: `Bearer ${config.token}`
     }
   })
-  .get(rest => rest.body)
+    .get(rest => rest.body);
 
-  sshKeys(callback)
+  sshKeys(callback);
 }
 
 function getSshKey (config, publicKey, callback) {
   const sshKey = righto(callarestJson, {
     url: 'https://api.digitalocean.com/v2/account/keys',
     headers: {
-      'Authorization': `Bearer ${config.token}`
+      Authorization: `Bearer ${config.token}`
     }
   })
-  .get(keys => {
-    return keys.body.ssh_keys.find(key => key.public_key === publicKey)
-  });
+    .get(keys => {
+      return keys.body.ssh_keys.find(key => key.public_key === publicKey);
+    });
 
-  sshKey(callback)
+  sshKey(callback);
 }
 
 function upsertSshKey (config, sshKey, callback) {
-  const maybeSshKey = righto(getSshKey, config, sshKey)
-  const result = righto(createSshKeyIfMissing, config, maybeSshKey, sshKey)
+  const maybeSshKey = righto(getSshKey, config, sshKey);
+  const result = righto(createSshKeyIfMissing, config, maybeSshKey, sshKey);
 
-  result(callback)
+  result(callback);
 }
 
-module.exports = upsertSshKey
+module.exports = upsertSshKey;

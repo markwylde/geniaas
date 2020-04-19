@@ -8,4 +8,4 @@ module.exports = {
   createVirtualMachine: require('./createVirtualMachine'),
   listSizes: require('./listSizes'),
   listImages: require('./listImages')
-}
+};
