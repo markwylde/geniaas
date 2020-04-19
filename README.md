@@ -13,10 +13,7 @@ npm install --save-dev geniaas
 ```
 
 ## Usage
-The example below uses [righto](https://github.com/korynunn/righto) for handline
-asynchronous code. All the functions provided by the drivers use the standard
-callback pattern. You can use `require('util').promisify` if you would prefer.
-
+### righto
 ```javascript
 const digitalocean = require('geniaas/drivers/digitalocean');
 
@@ -28,13 +25,13 @@ const providerConfig = righto(digitalocean.createProviderConfig, {
 });
 
 // Find a size to use
-const sizes = righto(digitalocean.listSizes, providerConfig)
+const size = righto(digitalocean.listSizes, providerConfig)
   .get(sizes => {
     return sizes.find(sizes=> size.slug === 's-1vcpu-1gb')
   })
 
 // Find an ubuntu image to use
-const images = righto(digitalocean.listImages, providerConfig)
+const image = righto(digitalocean.listImages, providerConfig)
   .get(images => {
     return images.find(images=> image.name.includes('ubuntu-18'))
   })
@@ -49,6 +46,39 @@ const machineOptions = righto.resolve({
 const machine = righto(digitalocean.createVirtualMachine, providerConfig, machineOptions)
 
 machine(function (error, machine) {
-  machine.networks.v4[0].ip_address
+  console.log(`The ip address of your new machine is: ${machine.networks.v4[0].ip_address}`)
 })
+```
+
+### promises
+```javascript
+const digitalocean = require('geniaas/drivers/digitalocean/promises')
+
+async function main () {
+  // Setup the config with authentication
+  const providerConfig = await digitalocean.createProviderConfig({
+    driver: 'digitalocean',
+    region: 'nyc3',
+    token: 'my digitalocean secret token'
+  });
+
+  // Find a size to use
+  const sizes = await digitalocean.listSizes(providerConfig)
+  const size = sizes.find(sizes => size.slug === 's-1vcpu-1gb')
+
+  // Find an ubuntu image to use
+  const images = await digitalocean.listImages(providerConfig)
+  const image = images.find(images => image.name.includes('ubuntu-18'))
+
+  // Create the virtual machine
+  const machineOptions = {
+    name: 'test-image',
+    size,
+    image,
+    sshKey: config.sshPublicKey
+  }
+  const machine = await digitalocean.createVirtualMachine(providerConfig, machineOptions)
+
+  console.log(`The ip address of your new machine is: ${machine.networks.v4[0].ip_address}`)
+}
 ```
