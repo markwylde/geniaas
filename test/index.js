@@ -34,6 +34,5 @@ test('digitalocean - success workflow', function * (t) {
   //   id: 189152970,
   // })
 
-  console.log(machine.networks.v4[0].ip_address);
-  t.pass();
+  t.ok(machine.networks.v4[0].ip_address);
 });
