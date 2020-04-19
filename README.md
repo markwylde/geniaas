@@ -25,21 +25,24 @@ const providerConfig = righto(digitalocean.createProviderConfig, {
 
 // Find a size to use
 const sizes = righto(digitalocean.listSizes, providerConfig)
-const size = sizes
-  .find(size => size.slug === 's-1vcpu-1gb')
+  .get(sizes => {
+    return sizes.find(sizes=> size.slug === 's-1vcpu-1gb')
+  })
 
 // Find an ubuntu image to use
 const images = righto(digitalocean.listImages, providerConfig)
-const image = images
-  .find(image => image.name.includes('ubuntu-18'))
+  .get(images => {
+    return images.find(images=> image.name.includes('ubuntu-18'))
+  })
 
 // Create the virtual machine
-const machine = righto(digitalocean.createVirtualMachine, providerConfig, {
+const machineOptions = righto.resolve({
   name: 'test-image',
   size,
   image,
   sshKey: config.sshPublicKey
 })
+const machine = righto(digitalocean.createVirtualMachine, providerConfig, machineOptions)
 
 machine(function (error, machine) {
   machine.networks.v4[0].ip_address
