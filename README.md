@@ -14,7 +14,7 @@ npm install --save-dev geniaas
 
 ## Usage
 The example below uses [righto](https://github.com/korynunn/righto) for handline
-asynchronous code. All the functions provided by digitalocean use the standard
+asynchronous code. All the functions provided by the drivers use the standard
 callback pattern. You can use `require('util').promisify` if you would prefer.
 
 ```javascript
