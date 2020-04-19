@@ -5,6 +5,8 @@
 [![GitHub](https://img.shields.io/github/license/markwylde/geniaas)](https://github.com/markwylde/geniaas/blob/master/LICENSE)
 [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/standard/semistandard)
 
+Generic IaaS library for running basic functions on cloud providers, such as creating and destroying virtual machines.
+
 ## Installation
 ```bash
 npm install --save-dev geniaas
