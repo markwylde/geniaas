@@ -9,7 +9,7 @@ Generic IaaS library for running basic functions on cloud providers, such as cre
 
 ## Installation
 ```bash
-npm install --save-dev geniaas
+npm install --save geniaas
 ```
 
 ## Usage
