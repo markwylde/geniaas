@@ -19,7 +19,6 @@ const digitalocean = require('geniaas/drivers/digitalocean');
 
 // Setup the config with authentication
 const providerConfig = righto(digitalocean.createProviderConfig, {
-  driver: 'digitalocean',
   region: 'nyc3',
   token: 'my digitalocean secret token'
 });
@@ -57,7 +56,6 @@ const digitalocean = require('geniaas/drivers/digitalocean/promises')
 async function main () {
   // Setup the config with authentication
   const providerConfig = await digitalocean.createProviderConfig({
-    driver: 'digitalocean',
     region: 'nyc3',
     token: 'my digitalocean secret token'
   });
