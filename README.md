@@ -12,6 +12,32 @@ Generic IaaS library for running basic functions on cloud providers, such as cre
 npm install --save geniaas
 ```
 
+## Generic API
+Each driver exposes the same API
+
+### createProviderConfig (options)
+Create a connection object that is passed to all other methods. This
+will have different properties, depending on how that provider 
+authentications it's users.
+
+### listSizes (providerConfig) -> [{size}]
+List all available VM sizes the provider has to offer
+
+### listImages (providerConfig) -> [{image}]
+List all available images the provider has to offer
+
+### createVirtualMachine (providerConfig, machineOptions)
+Create a VM on the provider. Options are:
+  - name: string,
+  - size: {size}
+  - image: {image}
+  - sshKey: string
+
+## Available Drivers
+The following providers come with this project:
+
+  - DigitalOcean
+
 ## Usage
 ### righto
 ```javascript
